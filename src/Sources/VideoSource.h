@@ -3,10 +3,10 @@
 #include "ofMain.h"
 #include "BaseSource.h"
 
-#ifdef TARGET_RASPBERRY_PI
- #include "ofxOMXPlayer.h"
- #include "OMXPlayerCache.h"
-#endif
+//#ifdef TARGET_RASPBERRY_PI
+// #include "ofxOMXPlayer.h"
+// #include "OMXPlayerCache.h"
+//#endif
 
 namespace ofx {
 namespace piMapper {
@@ -36,12 +36,12 @@ class VideoSource : public BaseSource {
 
 	private:
 
-		#ifdef TARGET_RASPBERRY_PI
+		/*#ifdef TARGET_RASPBERRY_PI
 			ofxOMXPlayer * _omxPlayer;
-		#else
+		#else*/
 			unique_ptr<ofVideoPlayer> _videoPlayer;
 			bool _initialVolumeSet;
-		#endif
+		//#endif
 	
 		bool _loop;
 

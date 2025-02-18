@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef TARGET_RASPBERRY_PI
+/*#ifdef TARGET_RASPBERRY_PI
 
 #include "ofMain.h"
 #include "ofxOMXPlayer.h"
@@ -26,3 +26,4 @@ class OMXPlayerCache {
 } // namespace ofx
 
 #endif
+*/

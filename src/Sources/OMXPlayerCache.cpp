@@ -1,5 +1,6 @@
 #include "OMXPlayerCache.h"
 
+/*
 #ifdef TARGET_RASPBERRY_PI
 
 namespace ofx {
@@ -44,3 +45,4 @@ void OMXPlayerCache::unload(std::string moviePath){
 } // namespace ofx
 
 #endif
+*/
