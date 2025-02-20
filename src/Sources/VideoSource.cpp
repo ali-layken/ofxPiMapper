@@ -84,8 +84,8 @@ void VideoSource::stop(){
     #endif
 }
 
-/*
-#ifndef TARGET_RASPBERRY_PI
+
+//#ifndef TARGET_RASPBERRY_PI
 	void VideoSource::update(ofEventArgs & args){
 		if(_videoPlayer != 0){
 			if(!_initialVolumeSet){
@@ -97,15 +97,16 @@ void VideoSource::stop(){
 			_videoPlayer->update();
 		}
 	}
+/*
 #else
-*/	void VideoSource::update(ofEventArgs & args){
+	void VideoSource::update(ofEventArgs & args){
 		if(!_loop && _omxPlayer != 0){
 			if(_omxPlayer->getCurrentFrame() >= _omxPlayer->getTotalNumFrames() - 1){
 				_omxPlayer->setPaused(true);
 			}
 		}
 	}
-//#endif
+*/
 
 void VideoSource::restart(){
 	#ifdef TARGET_RASPBERRY_PI
