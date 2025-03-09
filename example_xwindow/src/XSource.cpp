@@ -34,7 +34,7 @@ void XSource::update(){
         if (videoPixels.isAllocated()) {
             // Allocate texture once
             if (!videoTexture.isAllocated()) {
-                videoTexture.allocate(videoPixels.getWidth(), videoPixels.getHeight(), GL_BGRA);
+                videoTexture.allocate(videoPixels.getWidth(), videoPixels.getHeight(), GL_RGBA);
             }
             // Upload new frame to texture
             videoTexture.loadData(videoPixels);
