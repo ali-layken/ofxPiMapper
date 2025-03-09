@@ -12,7 +12,7 @@ void XSource::setup(){
     XGetWindowAttributes(display, targetWindow, &windowAttributes);
     allocate(windowAttributes.width, windowAttributes.height); 
 
-    std::string pipeline = "ximagesrc xid=" + std::to_string(targetWindow) + " use-damage=false ! "
+    std::string pipeline = "ximagesrc xid=" + std::to_string(targetWindow) + " use-damage=true ! "
                            "video/x-raw,format=BGRx,framerate=60/1 ! queue";
 
     ofLogNotice() << "Initializing GStreamer pipeline: " << pipeline;
