@@ -12,7 +12,7 @@ void XSource::setup(){
     XGetWindowAttributes(display, targetWindow, &windowAttributes);
     allocate(windowAttributes.width, windowAttributes.height); 
 
-    std::string pipeline = "ximagesrc xid=" + std::to_string(targetWindow) + " use-damage=true ! "
+    std::string pipeline = "ximagesrc xid=" + std::to_string(targetWindow) + " use-damage=false ! "
                            "video/x-raw,format=BGRx,framerate=60/1 ! queue";
 
     ofLogNotice() << "Initializing GStreamer pipeline: " << pipeline;
@@ -34,7 +34,7 @@ void XSource::update(){
         if (videoPixels.isAllocated()) {
             // Allocate texture once
             if (!videoTexture.isAllocated()) {
-                videoTexture.allocate(videoPixels.getWidth(), videoPixels.getHeight(), GL_RGBA);
+                videoTexture.allocate(videoPixels.getWidth(), videoPixels.getHeight(), GL_BGRA);
             }
             // Upload new frame to texture
             videoTexture.loadData(videoPixels);
