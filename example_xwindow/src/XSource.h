@@ -13,14 +13,12 @@ class XSource : public ofx::piMapper::FboSource {
 		void update();
 		void draw();
 
-		std::vector<ofRectangle> rects;
-		std::vector<float> rectSpeeds;
-
 	private:
-		Display *display;
-		Window targetWindow;
+	    Display* display = nullptr;
+    	Window targetWindow = 0;
+    	int windowWidth_ = 0;
+    	int windowHeight_ = 0;
+    	ofFbo fbo_;
 		ofGstVideoUtils videoUtils;
-		ofTexture videoTexture;
-		ofPixels videoPixels;
 		
 };

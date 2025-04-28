@@ -5,6 +5,14 @@ XSource::XSource(Display* d, Window win, const std::string& windowName) {
     display = d;
     targetWindow = win;
     name = windowName;
+
+    XWindowAttributes gwa;
+    XGetWindowAttributes(display, targetWindow, &gwa);
+    windowWidth_ = gwa.width;
+    windowHeight_ = gwa.height;
+
+    // Allocate FBO once
+    fbo_.allocate(windowWidth_, windowHeight_, GL_RGBA);
 }
 
 void XSource::setup(){
@@ -27,30 +35,24 @@ void XSource::setup(){
 
 // Don't do any drawing here
 void XSource::update(){
-    videoUtils.update();
-    if (videoUtils.isFrameNew()) {
-        videoPixels = videoUtils.getPixels();
-        
-        if (videoPixels.isAllocated()) {
-            // Allocate texture once
-            if (!videoTexture.isAllocated()) {
-                videoTexture.allocate(videoPixels.getWidth(), videoPixels.getHeight(), GL_RGBA);
-            }
-            // Upload new frame to texture
-            videoTexture.loadData(videoPixels);
-        }
-    }
+    XImage* image = XGetImage(display, targetWindow, 0, 0, windowWidth_, windowHeight_, AllPlanes, ZPixmap);
+    ofPixels pixels;
+
+    pixels.allocate(windowWidth_, windowHeight_, OF_PIXELS_RGB);
+    memcpy(pixels.getData(), image->data, windowWidth_ * windowHeight_ * 4); // Assuming 32bpp
+
+    fbo_.begin();
+    ofClear(0, 0, 0, 0);
+    ofTexture tex;
+    tex.loadData(pixels);
+    tex.draw(0, 0);
+    fbo_.end();
+
+    XDestroyImage(image);
  
 }
 
 
-void XSource::draw(){
-    ofClear(0);
-
-    if (videoTexture.isAllocated()) {
-        videoTexture.draw(0, 0, fbo->getWidth(), fbo->getHeight());
-    } else {
-        ofLogError() << "Video texture is not allocated!";
-    }
-
+void XSource::draw() {
+    fbo_.draw(0,0);
 }
