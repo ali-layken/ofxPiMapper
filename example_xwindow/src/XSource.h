@@ -8,9 +8,6 @@
 
 class XSource : public ofx::piMapper::FboSource {
 	public:
-		static bool initDisplay();        
-    	static void shutdownDisplay();     
-    	static Display* getDisplay(); 
 
 		XSource(Window win, const std::string& windowName);
 		~XSource();
@@ -19,11 +16,7 @@ class XSource : public ofx::piMapper::FboSource {
 		void update();
 		void draw();
 
-		std::vector<ofRectangle> rects;
-		std::vector<float> rectSpeeds;
-
 	private:
-		static Display* sharedDisplay;
 
 		Window targetWindow;
 		ofGstVideoUtils videoUtils;

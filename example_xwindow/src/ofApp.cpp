@@ -5,17 +5,12 @@ void ofApp::setup(){
 	ofSetFrameRate(60);
 	
 	//ofSetFrameRate(30);
-	//ofSetVerticalSync(false);
+	ofSetVerticalSync(false);
 
-	XSource::initDisplay();
 	getXWindowNames();
 
 	piMapper.setup();
 
-	if (!XSource::initDisplay()) {
-		ofLogError() << "Failed to initialize shared X11 display";
-	}
-	
 	ofSetFullscreen(false);
 	ofSetFullscreen(true);
 
@@ -31,9 +26,6 @@ void ofApp::draw(){
     piMapper.draw();
 }
 
-void ofApp::exit(){
-	XSource::shutdownDisplay();
-}
 
 void ofApp::keyPressed(int key){
 	piMapper.keyPressed(key);
