@@ -1,15 +1,33 @@
 #include "XSource.h"
 
+Display* XSource::sharedDisplay = nullptr;
 
-XSource::XSource(Display* d, Window win, const std::string& windowName) {
-    display = d;
+bool XSource::initDisplay() {
+    if (!sharedDisplay) {
+        sharedDisplay = XOpenDisplay(nullptr);
+    }
+    return sharedDisplay != nullptr;
+}
+
+void XSource::shutdownDisplay() {
+    if (sharedDisplay) {
+        XCloseDisplay(sharedDisplay);
+        sharedDisplay = nullptr;
+    }
+}
+
+Display* XSource::getDisplay() {
+    return sharedDisplay;
+}
+
+XSource::XSource(Window win, const std::string& windowName) {
     targetWindow = win;
     name = windowName;
 }
 
 void XSource::setup(){
     XWindowAttributes windowAttributes;
-    XGetWindowAttributes(display, targetWindow, &windowAttributes);
+    XGetWindowAttributes(XSource::getDisplay(), targetWindow, &windowAttributes);
     allocate(windowAttributes.width, windowAttributes.height); 
 
     std::string pipeline = "ximagesrc xid=" + std::to_string(targetWindow) + " use-damage=false ! "

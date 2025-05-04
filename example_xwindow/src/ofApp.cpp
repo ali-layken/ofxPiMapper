@@ -2,17 +2,24 @@
 
 void ofApp::setup(){
 	ofBackground(0);
+	ofSetFrameRate(60);
+	
 	//ofSetFrameRate(30);
 	//ofSetVerticalSync(false);
 
+	XSource::initDisplay();
 	getXWindowNames();
 
 	piMapper.setup();
+
+	if (!XSource::initDisplay()) {
+		ofLogError() << "Failed to initialize shared X11 display";
+	}
 	
 	ofSetFullscreen(false);
 	ofSetFullscreen(true);
 
-	ofSetEscapeQuitsApp(false);
+	ofSetEscapeQuitsApp(true);
 
 }
 
@@ -22,6 +29,10 @@ void ofApp::update(){
 
 void ofApp::draw(){
     piMapper.draw();
+}
+
+void ofApp::exit(){
+	XSource::shutdownDisplay();
 }
 
 void ofApp::keyPressed(int key){
@@ -85,7 +96,7 @@ void ofApp::getXWindowNames(){
 			int count = name ? nameCounts[std::string(name)]++ : 0;
             string uniqueName = name ? std::string(name) + " " + std::to_string(count) : "Unnamed Window " + std::to_string(windows[i]); 
 			ofLog() << "Window ID: " << windows[i] << " | Name: " << uniqueName;
-			piMapper.registerFboSource(new XSource(display, windows[i], uniqueName));
+			piMapper.registerFboSource(new XSource(windows[i], uniqueName));
 			windowNameList.push_back(uniqueName);
 
 			if (usedXFetchName && name) {
