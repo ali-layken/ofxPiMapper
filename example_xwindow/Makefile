@@ -1,6 +1,6 @@
 # Attempt to load a config.make file.
 # If none is found, project defaults in config.project.make will be used.
-USE_GST_GL=1
+USE_GST_GL = 1
 
 ifneq ($(wildcard config.make),)
 	include config.make
